@@ -192,20 +192,6 @@ int canPlace(int roadid, int st)
 	return -1;
 }
 
-bool driveAllWaitCar2()
-{
-	for (auto &e : cross_map)
-	{
-		auto cross_id = e.first;
-		auto cross = e.second;
-		auto &RoadId = cross->RoadId;
-		while (true)
-		{
-
-		}
-	}
-}
-
 void driveAllWaitCar()
 {
 	for (auto &e : cross_map)
@@ -222,90 +208,12 @@ void driveAllWaitCar()
 				auto road_from = road_map[roadid];
 				vector<pair<int, int>> dst_state(4);
 				
-				for (int tar = 3; tar >= 1; --tar)
-				{
-					int tar_line = -1;
-					for (int i = 0; i < road_from->lines.size(); ++i)
-					{
-						if (road_from->lines[i].ed == cross_id && !road_from->lines[i].waitqueue.empty())
-						{
-							tar_line = i;
-							break;
-						}
-					}
 
-					if (tar_line == -1) continue;
 
-					auto &roadline = road_from->lines[tar_line];
 
-					auto car_id = roadline.waitqueue.front();
-
-					auto ans_pos = ans_map[car_id];
-					auto road_to_id = ans_pos->path[ans_pos->pi + 1];
-
-					int road_old, road_new;
-					for (int i = 0; i < 4; ++i)
-					{
-						if (road_from->id == cross->RoadId[i]) road_old = i;
-						if (road_to_id == cross->RoadId[i]) road_new = i;
-					}
-					int d = getOrder(road_old, road_new);	//方向
-
-					if (d == tar && canPlace())	//调度他
-					{
-						if (ans_map[car_id]->pos == ans_map[car_id]->path.size() - 1)
-						{
-							//车辆到达终点
-							ans_map.erase(car_id);
-						}
-						else if (d == 3)	//直行
-						{
-							dst_state[oi];
-						}
-						else if (d == 2)	//左转
-						{
-
-						}
-						else if (d == 1)// 右转
-						{
-
-						}
-					}
-				}
 			}
 		}
 
-		for (auto &p : cross->waitqueue)
-		{
-			int car_id = p.first;
-			int left_dist = p.second;
-			auto ans_pos = ans_map[car_id];
-			auto pi = ans_pos->pi;
-			if (pi == ans_pos->path.size() - 1)
-			{
-				//todo
-				continue;
-			}
-			int new_roadid = ans_pos->pi + 1;
-			int old_roadid = ans_pos->pi;
-			int new_order, old_order;
-			for (int i = 0; i < 4; ++i)
-			{
-				if (cross->RoadId[i] == new_roadid)
-				{
-					new_order = i;
-					break;
-				}
-			}
-			for (int i = 0; i < 4; ++i)
-			{
-				if (cross->RoadId[i] == old_roadid)
-				{
-					old_order = i;
-					break;
-				}
-			}
-		}
 	}
 }
 
